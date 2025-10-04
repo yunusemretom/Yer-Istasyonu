@@ -741,7 +741,7 @@ class Ui_MainWindow(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">kjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk<br />dflbdknfbldfbd<br />fbdfdfdbfdfbd</p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p></body></html>"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Command here..."))
         self.pushButton.setShortcut(_translate("MainWindow", "Return"))
         self.pageSettings.setText(_translate("MainWindow", "Settings"))

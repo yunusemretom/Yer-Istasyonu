@@ -8,12 +8,14 @@ from PyQt5 import QtGui,QtCore,QtSvg
 import cv2
 from threadGUI import ThreadGUI
 import numpy as np
+import datetime
 
 from qfi import qfi_ADI, qfi_ALT, qfi_SI, qfi_HSI, qfi_VSI, qfi_TC
 import math
 
 from sidebar import Ui_MainWindow as Ui_Mainwindow_sidebar
 from splash import Ui_MainWindow
+from map_widget import MapWidget
 
 from PyQt5.QtGui import QPixmap
 import sys
@@ -32,7 +34,7 @@ class VideoThread(QThread):
 
     def run(self):
         # capture from web cam
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(2)
         while self._run_flag:
             ret, cv_img = cap.read()
             if ret:
@@ -95,6 +97,12 @@ class MainWindow(QMainWindow):
         self.thread.change_pixmap_signal.connect(self.update_image)
         # start the thread
         self.thread.start()
+        
+        # Kamera butonlarını ekle
+        self.setup_camera_buttons()
+        
+        # Harita widget'ını ekle
+        self.setup_map_widget()
 
     def closeEvent(self, event):
         self.thread.stop()
@@ -121,10 +129,10 @@ class MainWindow(QMainWindow):
         self.vertical_scrollbar.setValue(self.vertical_scrollbar.maximum())
 
     def on_mapsBtn_toggled(self):
-        self.ui1.stackedWidget.setCurrentIndex(1)
+        self.ui1.stackedWidget.setCurrentIndex(5)
 
     def on_terminalBtn_toggled(self):
-        self.ui1.stackedWidget.setCurrentIndex(5)
+        self.ui1.stackedWidget.setCurrentIndex(1)
     
     def on_settingsBtn_toggled(self):
         self.ui1.stackedWidget.setCurrentIndex(2)
@@ -134,6 +142,160 @@ class MainWindow(QMainWindow):
 
     def on_helpBtn_toggled(self):
         self.ui1.stackedWidget.setCurrentIndex(4)
+        
+    def setup_map_widget(self):
+        """Harita widget'ını kur ve harita sayfasına ekle"""
+        # Harita widget'ını oluştur
+        self.map_widget = MapWidget()
+        
+        # Harita sayfasındaki mevcut label'ı kaldır ve widget'ı ekle
+        self.ui1.pageMaps.setParent(None)
+        self.ui1.horizontalLayout_7.addWidget(self.map_widget)
+        
+        # Harita widget sinyallerini bağla
+        self.map_widget.coordinate_clicked.connect(self.on_coordinate_clicked)
+        self.map_widget.command_executed.connect(self.on_command_executed)
+        
+    def on_coordinate_clicked(self, lat, lon):
+        """Harita tıklama olayı"""
+        print(f"Harita tıklandı: Enlem={lat:.6f}, Boylam={lon:.6f}")
+        
+    def on_command_executed(self, command):
+        """Komut çalıştırma olayı"""
+        print(f"Komut çalıştırıldı: {command}")
+        
+        # Console'a mesaj ekle
+        timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+        message = f"[{timestamp}] Komut: {command}"
+        self.ui1.console_home.append(message)
+        
+        # Scroll'u en alta taşı
+        scrollbar = self.ui1.console_home.verticalScrollBar()
+        scrollbar.setValue(scrollbar.maximum())
+        
+    def setup_camera_buttons(self):
+        """Kamera kontrol butonlarını oluştur"""
+        from PyQt5.QtWidgets import QPushButton, QHBoxLayout, QWidget
+        
+        # Kamera butonları için widget oluştur
+        camera_control_widget = QWidget()
+        camera_control_widget.setParent(self.ui1.frame_6)  # Ana frame'e ekle
+        camera_control_widget.setGeometry(910, 600, 481, 50)  # Kamera altında
+        
+        # Layout oluştur
+        layout = QHBoxLayout(camera_control_widget)
+        layout.setContentsMargins(10, 5, 10, 5)
+        
+        # Kamera aç butonu
+        self.btn_camera_start = QPushButton("📹 Kamera Aç")
+        self.btn_camera_start.setStyleSheet("""
+            QPushButton {
+                background-color: #27ae60;
+                color: white;
+                border: 2px solid #2ecc71;
+                border-radius: 8px;
+                padding: 10px 20px;
+                font-size: 14px;
+                font-weight: bold;
+                min-width: 120px;
+            }
+            QPushButton:hover {
+                background-color: #2ecc71;
+                border-color: #27ae60;
+            }
+            QPushButton:pressed {
+                background-color: #229954;
+            }
+        """)
+        
+        # Kamera kapat butonu
+        self.btn_camera_stop = QPushButton("⏹️ Kamera Kapat")
+        self.btn_camera_stop.setStyleSheet("""
+            QPushButton {
+                background-color: #e74c3c;
+                color: white;
+                border: 2px solid #c0392b;
+                border-radius: 8px;
+                padding: 10px 20px;
+                font-size: 14px;
+                font-weight: bold;
+                min-width: 120px;
+            }
+            QPushButton:hover {
+                background-color: #c0392b;
+                border-color: #e74c3c;
+            }
+            QPushButton:pressed {
+                background-color: #a93226;
+            }
+        """)
+        
+        # Buton bağlantıları
+        self.btn_camera_start.clicked.connect(self.start_camera)
+        self.btn_camera_stop.clicked.connect(self.stop_camera)
+        
+        # Butonları layout'a ekle
+        layout.addWidget(self.btn_camera_start)
+        layout.addWidget(self.btn_camera_stop)
+        
+        # Başlangıçta aç butonunu devre dışı bırak (kamera zaten çalışıyor)
+        self.btn_camera_start.setEnabled(False)
+        
+    def start_camera(self):
+        """Kamerayı başlat"""
+        try:
+            if not self.thread._run_flag:
+                # Yeni thread oluştur
+                self.thread = VideoThread()
+                self.thread.change_pixmap_signal.connect(self.update_image)
+                self.thread.start()
+                
+                # Buton durumlarını güncelle
+                self.btn_camera_start.setEnabled(False)
+                self.btn_camera_stop.setEnabled(True)
+                
+                # Console'a mesaj ekle
+                timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+                message = f"[{timestamp}] Kamera başlatıldı"
+                self.ui1.console_home.append(message)
+                
+                # Scroll'u en alta taşı
+                scrollbar = self.ui1.console_home.verticalScrollBar()
+                scrollbar.setValue(scrollbar.maximum())
+                
+                print(f"[{timestamp}] Kamera başlatıldı")
+                
+        except Exception as e:
+            print(f"Kamera başlatma hatası: {e}")
+            
+    def stop_camera(self):
+        """Kamerayı durdur"""
+        try:
+            if self.thread._run_flag:
+                # Thread'i durdur
+                self.thread.stop()
+                
+                # Buton durumlarını güncelle
+                self.btn_camera_start.setEnabled(True)
+                self.btn_camera_stop.setEnabled(False)
+                
+                # Kamera görüntüsünü temizle
+                self.ui1.image_label.clear()
+                self.ui1.image_label.setText("Kamera Kapalı")
+                
+                # Console'a mesaj ekle
+                timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+                message = f"[{timestamp}] Kamera durduruldu"
+                self.ui1.console_home.append(message)
+                
+                # Scroll'u en alta taşı
+                scrollbar = self.ui1.console_home.verticalScrollBar()
+                scrollbar.setValue(scrollbar.maximum())
+                
+                print(f"[{timestamp}] Kamera durduruldu")
+                
+        except Exception as e:
+            print(f"Kamera durdurma hatası: {e}")
 
 
 
