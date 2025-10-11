@@ -813,7 +813,7 @@ class Ui_MainWindow(object):
         self.terminalBtn.setShortcut(_translate("MainWindow", "Ctrl+R"))
         self.settingsBtn.setShortcut(_translate("MainWindow", "Ctrl+R"))
         self.helpBtn.setShortcut(_translate("MainWindow", "Ctrl+R"))
-        self.label_3.setText(_translate("MainWindow", "GRAVITEAM"))
+        self.label_3.setText(_translate("MainWindow", "AYBUHAVK"))
         self.homeBtn_2.setText(_translate("MainWindow", "Dashboard"))
         self.homeBtn_2.setShortcut(_translate("MainWindow", "Ctrl+R"))
         self.mapsBtn_2.setText(_translate("MainWindow", "Maps"))
