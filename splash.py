@@ -102,7 +102,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label_title.setText(_translate("MainWindow", "Graviteam"))
+        self.label_title.setText(_translate("MainWindow", "AybuHavk"))
         self.label_2_description.setText(_translate("MainWindow", "App Descreption"))
         self.label_3_loading.setText(_translate("MainWindow", "loading..."))
-        self.label_4_created.setText(_translate("MainWindow", "<strong>Created</strong> by Graviteam"))
+        self.label_4_created.setText(_translate("MainWindow", "<strong>Created</strong> by YunusEmreTom"))

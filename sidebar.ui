@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2145</width>
-    <height>846</height>
+    <width>1894</width>
+    <height>863</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Ground Station</string>
@@ -98,6 +104,11 @@ QComboBox:on {
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item alignment="Qt::AlignLeft">
      <widget class="QWidget" name="icon_only_widget" native="true">
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	text-align:center;
+}</string>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
         <number>8</number>
@@ -141,6 +152,12 @@ QComboBox:on {
        </item>
        <item>
         <widget class="QPushButton" name="homeBtn">
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -271,32 +288,6 @@ QComboBox:on {
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="infoBtn">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="resource.qrc">
-           <normaloff>:/icons/icons/info.svg</normaloff>:/icons/icons/info.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>24</width>
-           <height>24</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+R</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="helpBtn">
          <property name="text">
           <string/>
@@ -327,6 +318,9 @@ QComboBox:on {
     </item>
     <item alignment="Qt::AlignLeft">
      <widget class="QWidget" name="full_menu_widget" native="true">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="leftMargin">
         <number>0</number>
@@ -440,37 +434,6 @@ QComboBox:on {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="telemetryBtn">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Telemetry</string>
-           </property>
-           <property name="icon">
-            <iconset resource="resource.qrc">
-             <normaloff>:/icons/icons/chart.svg</normaloff>:/icons/icons/chart.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+R</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="mapsBtn_2">
            <property name="font">
             <font>
@@ -502,37 +465,6 @@ QComboBox:on {
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="cameraBtn">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Camera</string>
-           </property>
-           <property name="icon">
-            <iconset resource="resource.qrc">
-             <normaloff>:/icons/icons/camera.svg</normaloff>:/icons/icons/camera.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+R</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="terminalBtn_2">
            <property name="font">
             <font>
@@ -545,68 +477,6 @@ QComboBox:on {
            <property name="icon">
             <iconset resource="resource.qrc">
              <normaloff>:/icons/icons/terminal.svg</normaloff>:/icons/icons/terminal.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+R</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="missionBtn">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Mission Planner</string>
-           </property>
-           <property name="icon">
-            <iconset resource="resource.qrc">
-             <normaloff>:/icons/icons/route.svg</normaloff>:/icons/icons/route.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+R</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="logsBtn">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Flight Logs</string>
-           </property>
-           <property name="icon">
-            <iconset resource="resource.qrc">
-             <normaloff>:/icons/icons/file-text.svg</normaloff>:/icons/icons/file-text.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -771,40 +641,21 @@ QComboBox:on {
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QLabel" name="connectionStatus">
-              <property name="styleSheet">
-               <string notr="true">QLabel {
-    background-color: #2a2d33;
-    border-radius: 10px;
-    padding: 5px 10px;
-    color: #ff4444;
-}</string>
-              </property>
-              <property name="text">
-               <string>Disconnected</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="PortSelect">
-              <property name="placeholderText">
-               <string>Select Port</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QComboBox" name="BaudRateSelect">
-              <property name="placeholderText">
+              <property name="placeholderText" stdset="0">
                <string>Baud Rate</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="Connection_Button">
-              <property name="icon">
-               <iconset resource="resource.qrc">
-                <normaloff>:/icons/icons/connection_img.png</normaloff>:/icons/icons/connection_img.png</iconset>
+             <widget class="QComboBox" name="PortSelect">
+              <property name="placeholderText" stdset="0">
+               <string>Select Port</string>
               </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="Connection_Button">
               <property name="styleSheet">
                <string notr="true">QPushButton {
     background-color: #2a2d33;
@@ -815,6 +666,10 @@ QComboBox:on {
 QPushButton:hover {
     background-color: #3a3d43;
 }</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resource.qrc">
+                <normaloff>:/icons/icons/connection_img.png</normaloff>:/icons/icons/connection_img.png</iconset>
               </property>
              </widget>
             </item>
@@ -969,7 +824,7 @@ QScrollBar::handle:vertical {
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;kjdnbkdjfndkfjdnfkdjfndfkjdndkjnk&lt;br /&gt;dflbdknfbldfbd&lt;br /&gt;fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk&lt;br /&gt;dflbdknfbldfbd&lt;br /&gt;fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk&lt;br /&gt;dflbdknfbldfbd&lt;br /&gt;fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk&lt;br /&gt;dflbdknfbldfbd&lt;br /&gt;fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk&lt;br /&gt;dflbdknfbldfbd&lt;br /&gt;fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk&lt;br /&gt;dflbdknfbldfbd&lt;br /&gt;fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk&lt;br /&gt;dflbdknfbldfbd&lt;br /&gt;fbdfdfdbfdfbdkjdnbkdjfndkfjdnfkdjfndfkjdndkjnk&lt;br /&gt;dflbdknfbldfbd&lt;br /&gt;fbdfdfdbfdfbd&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="overwriteMode">
                     <bool>false</bool>
@@ -1021,18 +876,128 @@ border-radius: 25px;}</string>
                  <enum>QFrame::Raised</enum>
                 </property>
                </widget>
-               <widget class="QLabel" name="image_label">
+               <widget class="QWidget" name="widget" native="true">
                 <property name="geometry">
                  <rect>
-                  <x>910</x>
-                  <y>80</y>
-                  <width>481</width>
-                  <height>511</height>
+                  <x>840</x>
+                  <y>10</y>
+                  <width>503</width>
+                  <height>640</height>
                  </rect>
                 </property>
-                <property name="text">
-                 <string/>
-                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_10">
+                 <item>
+                  <widget class="QLabel" name="image_label">
+                   <property name="minimumSize">
+                    <size>
+                     <width>481</width>
+                     <height>511</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border:10px solid;
+background-color: rgba(49, 49, 49, 180);
+border-radius: 20px;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_2" native="true">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_12">
+                    <item>
+                     <widget class="QComboBox" name="cameraSelect">
+                      <property name="autoFillBackground">
+                       <bool>false</bool>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">border-radius: 8px;
+                padding: 8px 10px;
+                font-size: 12px;
+                font-weight: bold;
+                min-width: 120px;</string>
+                      </property>
+                      <property name="editable">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="openCamera">
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+                background-color: #27ae60;
+                color: white;
+                border: 2px solid #2ecc71;
+                border-radius: 8px;
+                padding: 8px 10px;
+                font-size: 12px;
+                font-weight: bold;
+                min-width: 120px;
+            }
+            QPushButton:hover {
+                background-color: #2ecc71;
+                border-color: #27ae60;
+            }
+            QPushButton:pressed {
+                background-color: #229954;
+            }</string>
+                      </property>
+                      <property name="text">
+                       <string>Kamerayı aç</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="resource.qrc">
+                        <normaloff>:/icons/icons/camera.svg</normaloff>:/icons/icons/camera.svg</iconset>
+                      </property>
+                      <property name="checkable">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="closeCamera">
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+                background-color: #e74c3c;
+                color: white;
+                border: 2px solid #c0392b;
+                border-radius: 8px;
+                padding: 8px 10px;
+                font-size: 12px;
+                font-weight: bold;
+                min-width: 120px;
+            }
+            QPushButton:hover {
+                background-color: #c0392b;
+                border-color: #e74c3c;
+            }
+            QPushButton:pressed {
+                background-color: #a93226;
+            }</string>
+                      </property>
+                      <property name="text">
+                       <string>Kamerayı Kapat</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normalon>:/icons/icons/camera-off.svg</normalon>
+                       </iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </widget>
              </item>
@@ -1645,6 +1610,7 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
  </widget>
  <resources>
   <include location="resource.qrc"/>
+  <include location="resource.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -1706,8 +1672,8 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
      <y>177</y>
     </hint>
     <hint type="destinationlabel">
-     <x>142</x>
-     <y>177</y>
+     <x>275</x>
+     <y>219</y>
     </hint>
    </hints>
   </connection>
@@ -1718,12 +1684,12 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>93</x>
-     <y>211</y>
+     <x>109</x>
+     <y>259</y>
     </hint>
     <hint type="destinationlabel">
-     <x>153</x>
-     <y>211</y>
+     <x>286</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -1750,12 +1716,12 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>143</x>
-     <y>165</y>
+     <x>276</x>
+     <y>219</y>
     </hint>
     <hint type="destinationlabel">
-     <x>91</x>
-     <y>162</y>
+     <x>107</x>
+     <y>211</y>
     </hint>
    </hints>
   </connection>
@@ -1766,12 +1732,12 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>143</x>
-     <y>199</y>
+     <x>276</x>
+     <y>266</y>
     </hint>
     <hint type="destinationlabel">
-     <x>79</x>
-     <y>194</y>
+     <x>95</x>
+     <y>259</y>
     </hint>
    </hints>
   </connection>
@@ -1804,38 +1770,6 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
     <hint type="destinationlabel">
      <x>115</x>
      <y>716</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>infoBtn</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>infoBtn_2</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>115</x>
-     <y>748</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>298</x>
-     <y>752</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>infoBtn_2</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>infoBtn</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>284</x>
-     <y>752</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>115</x>
-     <y>748</y>
     </hint>
    </hints>
   </connection>
@@ -1878,12 +1812,12 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1771</x>
-     <y>51</y>
+     <x>2111</x>
+     <y>72</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1775</x>
-     <y>207</y>
+     <x>2121</x>
+     <y>299</y>
     </hint>
    </hints>
   </connection>
@@ -1894,12 +1828,12 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1771</x>
-     <y>51</y>
+     <x>2111</x>
+     <y>72</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1775</x>
-     <y>209</y>
+     <x>2121</x>
+     <y>301</y>
     </hint>
    </hints>
   </connection>
@@ -1910,12 +1844,12 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1503</x>
-     <y>774</y>
+     <x>500</x>
+     <y>121</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1475</x>
-     <y>776</y>
+     <x>500</x>
+     <y>121</y>
     </hint>
    </hints>
   </connection>
@@ -1926,12 +1860,12 @@ border-image: url(:/icons/icons/photo_6046499524345706809_x.jpg);
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1510</x>
-     <y>771</y>
+     <x>500</x>
+     <y>121</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1465</x>
-     <y>771</y>
+     <x>500</x>
+     <y>121</y>
     </hint>
    </hints>
   </connection>
