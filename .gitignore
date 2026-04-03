@@ -32,8 +32,13 @@ htmlcov/
 .vscode/
 .idea/
 *.swp
+
 *~
 
 # OS files
 .DS_Store
 Thumbs.db
+
+
+
+#AYŞEM BENİM

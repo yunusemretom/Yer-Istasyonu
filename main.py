@@ -1,4 +1,5 @@
 # Standard library imports
+import os
 import sys
 import datetime
 import math
@@ -11,6 +12,12 @@ from typing import Optional
 import cv2
 import numpy as np
 import serial.tools.list_ports
+
+# OpenCV may set Qt plugin paths that conflict with PyQt5 on Linux/Wayland.
+for env_key in ("QT_QPA_PLATFORM_PLUGIN_PATH", "QT_PLUGIN_PATH"):
+    env_value = os.environ.get(env_key, "")
+    if "cv2" in env_value:
+        os.environ.pop(env_key, None)
 
 # PyQt5 imports
 from PyQt5 import QtCore, QtGui, QtSvg
