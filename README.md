@@ -1,169 +1,158 @@
-# ModernGUI2 - Drone/İHA Kontrol Arayüzü
+# Yer İstasyonu
 
-Bu proje, drone/İHA operasyonları için tasarlanmış kapsamlı bir GUI arayüz programıdır. PyQt5 framework'ü kullanılarak geliştirilmiştir ve harita entegrasyonu, komut butonları ve log sistemi içerir.
+A desktop ground control station shell for UAV and rocket operations: flight
+instruments, an interactive map with waypoint editing, a live camera feed and
+serial link selection, in one PyQt5 application.
 
-## 🚀 Özellikler
+Status: the interface, map and camera pipeline work. The telemetry link is not
+finished, so instruments are not yet driven by a real vehicle.
 
-### ✅ Tamamlanan Özellikler
+![demo](docs/demo.gif)
 
-- **5 Farklı Komut Butonu**: Kalkış, İniş, Waypoint Ekle, Mission Başlat, Acil Durdur
-- **Harita Entegrasyonu**: OpenStreetMap tabanlı interaktif harita
-- **GPS Koordinat Gösterimi**: Gerçek zamanlı koordinat bilgileri
-- **Marker Ekleme/Çıkarma**: Harita üzerinde işaretleyici yönetimi
-- **Log Sistemi**: Tüm operasyonların kayıt altına alınması
-- **Terminal/Console Bildirimleri**: Komut çalıştırma bildirimleri
-- **Flight Instruments**: ADI, HSI, SI göstergeleri
-- **Kamera Görüntüsü**: Gerçek zamanlı video akışı
+## Tech stack
 
-## 📋 Gereksinimler
+![Python](https://img.shields.io/badge/Python-3.7+-3776AB?logo=python&logoColor=white)
+![PyQt5](https://img.shields.io/badge/PyQt5-5.15-41CD52?logo=qt&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.8-5C3EE8?logo=opencv&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-1.24-013243?logo=numpy&logoColor=white)
+![pySerial](https://img.shields.io/badge/pySerial-Telemetry-lightgrey)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-- Python 3.7+
-- PyQt5
-- Folium (harita entegrasyonu için)
-- OpenCV (kamera görüntüleri için)
-- NumPy
+## Quick start
 
-## 🛠️ Kurulum
-
-1. **Repository'yi klonlayın:**
 ```bash
-git clone <repository-url>
-cd moderngui2
-```
+# 1. Clone
+git clone https://github.com/yunusemretom/Yer-Istasyonu.git
+cd Yer-Istasyonu
 
-2. **Gerekli paketleri yükleyin:**
-```bash
+# 2. Virtual environment and dependencies
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-```
 
-3. **Uygulamayı çalıştırın:**
-```bash
+# 3. Run
 python main.py
 ```
 
-## 🧪 Test
+On Linux, PyQt5 also needs the system Qt platform plugins:
 
-Uygulamayı test etmek için:
 ```bash
-python test_gui.py
+sudo apt install libxcb-xinerama0 libxcb-cursor0
 ```
 
-## 📦 Executable Oluşturma
+To build a standalone executable:
 
-Tek dosya executable oluşturmak için:
 ```bash
-python build_executable.py
+python build_executable.py     # PyInstaller, uses main.spec
 ```
 
-## 📖 Kullanım
+## How it works
 
-Detaylı kullanım bilgileri için [KULLANIM_KILAVUZU.md](KULLANIM_KILAVUZU.md) dosyasını inceleyin.
-
-### Hızlı Başlangıç
-
-1. Uygulamayı başlatın
-2. Sol menüden "Maps" butonuna tıklayın
-3. Harita üzerinde istediğiniz yere tıklayarak koordinatları görün
-4. Komut butonlarını kullanarak drone operasyonlarını simüle edin
-
-## 🗂️ Proje Yapısı
+The application is a Qt widget tree with three data sources feeding it: a serial
+telemetry link, a camera, and operator input from the map.
 
 ```
-moderngui2/
-├── main.py                 # Ana uygulama dosyası
-├── map_widget.py          # Harita widget'ı
-├── sidebar.py             # Sidebar arayüzü
-├── arayuz.py              # PFD (Primary Flight Display)
-├── requirements.txt       # Python paket gereksinimleri
-├── KULLANIM_KILAVUZU.md   # Detaylı kullanım kılavuzu
-├── test_gui.py           # Test script'i
-├── build_executable.py   # Executable oluşturma script'i
-├── logs/                 # Log dosyaları
-│   └── map_operations.log
-└── icons/                # İkon dosyaları
+main.py            main window, layout, command buttons
+sidebar.py         connection panel, port and baud rate selection
+hud.py             heads-up display overlay
+map_widget.py      QGraphicsView map, markers, waypoints
+qfi/               flight instrument widgets (third party)
+resource_rc.py     compiled Qt resources from resource.qrc
 ```
 
-## 🎯 Komut Butonları
+Flight instruments come from QFlightInstruments rather than being drawn from
+scratch: attitude indicator, HSI, airspeed, altimeter, vertical speed and turn
+coordinator. Reimplementing calibrated instrument faces would have been weeks of
+work for a worse result than an established MIT-licensed library.
 
-- **🚁 Kalkış**: Drone'u kalkışa hazırlar
-- **🛬 İniş**: Drone'u güvenli inişe yönlendirir
-- **📍 Waypoint Ekle**: Harita üzerinde waypoint ekleme modunu aktifleştirir
-- **🎯 Mission Başlat**: Önceden tanımlanmış görevi başlatır
-- **🚨 Acil Durdur**: Tüm operasyonları acil durdurur
+### The Qt plugin conflict that cost a day
 
-## 🗺️ Harita Özellikleri
+The first thing `main.py` does, before importing PyQt5, is this:
 
-- PyQt5 Graphics View tabanlı basit harita
-- GPS koordinat gösterimi
-- Marker ekleme/çıkarma
-- Harita tıklama ile koordinat alma
-- Gerçek zamanlı log sistemi
-- Grid tabanlı koordinat sistemi
+```python
+for env_key in ("QT_QPA_PLATFORM_PLUGIN_PATH", "QT_PLUGIN_PATH"):
+    env_value = os.environ.get(env_key, "")
+    if "cv2" in env_value:
+        os.environ.pop(env_key, None)
+```
 
-## 📊 Log Sistemi
+`opencv-python` ships its own copy of Qt and sets these variables on import. On
+Linux the application would then load OpenCV's Qt plugins into a PyQt5 process
+and abort with a platform plugin error that names neither library. The symptom
+looked like a broken PyQt install; the cause was two Qt runtimes in one process.
+Order matters here: the variables have to be cleared before PyQt5 is imported,
+which is why this sits above the import block rather than in a setup function.
 
-- Tüm komut çalıştırmaları otomatik loglanır
-- Loglar hem ekranda hem de dosyada saklanır
-- Zaman damgalı log girişleri
-- Hata ve bilgi mesajları ayrımı
+### Drawing the map instead of embedding a browser
 
-## 🔧 Teknik Detaylar
+The obvious way to get a map into Qt is to embed a web view and run Leaflet or
+Folium in it. I started there and moved away from it. A web view adds a browser
+engine to the dependency tree, makes the PyInstaller build much larger and more
+fragile, and puts a process boundary between a click on the map and the
+application state that has to react to it.
 
-### Framework ve Teknolojiler
+`map_widget.py` instead draws into a `QGraphicsView` directly and exposes what
+the application needs as Qt signals:
 
-- **GUI Framework**: PyQt5
-- **Harita**: Basit Graphics View haritası (PyQt5 Graphics Scene)
-- **Log Sistemi**: Python logging modülü
-- **Koordinat Sistemi**: WGS84 (GPS standardı)
-- **Video**: OpenCV
+```python
+coordinate_clicked = pyqtSignal(float, float)   # lat, lon
+command_executed   = pyqtSignal(str)
+```
 
-### Koordinat Sistemi
+Waypoint editing then becomes ordinary Qt signal wiring rather than JavaScript
+interop. The tradeoff is real and deliberate: there are no satellite basemap
+tiles, so this is a geometry and waypoint view, not a substitute for a mapping
+stack.
 
-- **Enlem (Latitude)**: -90° ile +90° arası
-- **Boylam (Longitude)**: -180° ile +180° arası
-- **Yükseklik**: Metre cinsinden (deniz seviyesinden)
+### Keeping the interface responsive
 
-## 🐛 Sorun Giderme
+Camera capture blocks, so it cannot live on the GUI thread. `VideoThread` is a
+`QThread` that owns the `cv2.VideoCapture` loop and pushes frames out as a
+signal:
 
-### Yaygın Sorunlar
+```python
+class VideoThread(QThread):
+    change_pixmap_signal = pyqtSignal(np.ndarray)
+```
 
-1. **Harita Yüklenmiyor**
-   - İnternet bağlantınızı kontrol edin
-   - PyQtWebEngine paketinin yüklü olduğundan emin olun
+The widget receives frames in a slot on the GUI thread. This matters more in
+PyQt5 than it looks: touching a widget from a non-Qt thread is undefined
+behavior, not merely bad style, and it fails as an intermittent crash rather
+than an error. The vendored `threadGUI.py` demo shows the pattern I moved away
+from, calling `gui.update()` straight from a plain Python thread. It is kept for
+reference and is not imported by the application.
 
-2. **Komut Butonları Çalışmıyor**
-   - Console çıktısını kontrol edin
-   - Log dosyalarını inceleyin
+The same treatment is what the serial link still needs, and is the reason it is
+listed as unfinished below rather than shipped.
 
-3. **Koordinatlar Görünmüyor**
-   - Harita üzerinde bir yere tıkladığınızdan emin olun
+## Known limitations
 
-## 📝 Lisans
+- **The telemetry link is incomplete.** The interface enumerates serial ports and
+  offers baud rates, but there is no read loop or packet parser yet, so the
+  instruments are not driven by vehicle data. This is the next piece of work.
+- No satellite or street basemap tiles, by the design tradeoff above.
+- No MAVLink implementation, so this is not a QGroundControl replacement and
+  cannot do parameter or mission protocol exchange.
+- The camera path and the map are the parts that have actually been exercised.
+- The Windows PyInstaller build is the one that gets used; the Linux build is
+  less tested.
+- No unit tests. Verification has been manual.
+- The repository is mixed-license. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Bu proje eğitim amaçlı geliştirilmiştir.
+## Roadmap
 
-## 🤝 Katkıda Bulunma
+- Finish the telemetry link: a `QThread` serial reader feeding the instruments
+  through signals, mirroring how `VideoThread` already works.
+- Speak MAVLink rather than a custom format, so any ArduPilot or PX4 vehicle
+  works unmodified.
+- Offline raster tile support so the map has a real basemap without a web view.
+- Automated tests around the packet parser once it exists, since that is the
+  part most likely to break silently.
 
-1. Fork yapın
-2. Feature branch oluşturun (`git checkout -b feature/AmazingFeature`)
-3. Commit yapın (`git commit -m 'Add some AmazingFeature'`)
-4. Push yapın (`git push origin feature/AmazingFeature`)
-5. Pull Request oluşturun
+## License
 
-## 📞 İletişim
+MIT for the application code. See [LICENSE](LICENSE) and
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the vendored components.
 
-Proje hakkında sorularınız için:
-- GitHub Issues kullanın
-- E-posta ile iletişime geçin
-
----
-
-**⚠️ Önemli Not**: Bu program drone/İHA operasyonları için tasarlanmıştır. Gerçek uçuşlarda kullanmadan önce gerekli güvenlik önlemlerini alın ve yerel yasalara uygun hareket edin.
-
-## 🎉 Teşekkürler
-
-Bu projeyi geliştirirken kullanılan açık kaynak kütüphanelere teşekkürler:
-- PyQt5
-- OpenCV
-- NumPy
-- Python Standard Library
+Turkish documentation is preserved in [README.tr.md](README.tr.md), alongside
+[KULLANIM_KILAVUZU.md](KULLANIM_KILAVUZU.md).

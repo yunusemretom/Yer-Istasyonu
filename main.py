@@ -31,7 +31,6 @@ from qfi import qfi_ADI, qfi_ALT, qfi_SI, qfi_HSI, qfi_VSI, qfi_TC
 from sidebar import Ui_MainWindow as Ui_Mainwindow_sidebar
 from splash import Ui_MainWindow
 from map_widget import MapWidget
-from threadGUI import ThreadGUI
 
 # Constants
 class Constants:
